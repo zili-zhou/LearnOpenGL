@@ -1,2 +1,2 @@
-# LearnOPenGL
+# LearnOpenGL
 Tutorials of OpenGL
