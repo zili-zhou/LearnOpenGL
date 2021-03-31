@@ -2,6 +2,11 @@
 #define SHADER_H
 
 #include<glad/glad.h>
+
+#include<glm/glm.hpp>
+#include<glm/gtc/matrix_transform.hpp>
+#include<glm/gtc/type_ptr.hpp>
+
 #include<string>
 #include<iostream>
 #include<fstream>
@@ -18,6 +23,7 @@ public:
 	void SetBool(const std::string& name, bool value);
 	void SetInt(const std::string& name, int value);
 	void SetFloat(const std::string& name, float value);
+	void SetMatrix(const std::string& name, glm::mat4 value);
 private:
 	void CheckCompileError(unsigned int shader, std::string type);
 };
@@ -88,20 +94,26 @@ void Shader::use()
 
 void Shader::SetBool(const std::string& name, bool value)
 {
-	int UniformLocation = glGetUniformLocation(m_ProgramID, name.data());
+	unsigned int UniformLocation = glGetUniformLocation(m_ProgramID, name.data());
 	glUniform1i(UniformLocation, (int)value);
 }
 
 void Shader::SetFloat(const std::string& name, float value)
 {
-	int UniformLocation = glGetUniformLocation(m_ProgramID, name.data());
+	unsigned int UniformLocation = glGetUniformLocation(m_ProgramID, name.data());
 	glUniform1f(UniformLocation, value);
 }
 
 void Shader::SetInt(const std::string& name, int value)
 {
-	int UniformLocation = glGetUniformLocation(m_ProgramID, name.data());
+	unsigned int UniformLocation = glGetUniformLocation(m_ProgramID, name.data());
 	glUniform1i(UniformLocation, (value));
+}
+
+void Shader::SetMatrix(const std::string& name, glm::mat4 value)
+{
+	unsigned int UniformLocation = glGetUniformLocation(m_ProgramID, name.data());
+	glUniformMatrix4fv(UniformLocation, 1, GL_FALSE, &value[0][0]);
 }
 
 void Shader::CheckCompileError(unsigned int shader, std::string type)

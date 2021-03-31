@@ -18,7 +18,7 @@
     <ClCompile Include="glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="transformation.cpp">
+    <ClCompile Include="Transformations.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

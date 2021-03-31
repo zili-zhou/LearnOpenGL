@@ -1,6 +1,7 @@
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
 #include<shader_h/shader.h>
+#include<camera_h/camera.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include<stb_image.h>
 
@@ -9,20 +10,34 @@
 #include<glm/gtc/type_ptr.hpp>
 
 #include<iostream>
-
+#include<cmath>
 #include<vector>
 
-const unsigned int WIN_WIDTH = 800;
-const unsigned int WIN_HEIGHT = 600;
+const unsigned int WIN_WIDTH = 1440;
+const unsigned int WIN_HEIGHT = 1080;
 
 float mixvalue = 0.2f;
-float moveleftright = 0.0f;
-float moveupdown = 0.0f;
-bool IsLeftRight=false;
+/*
+//摄像机三个参数
+glm::vec3 CameraPosition = glm::vec3(0.0f, 0.0f, 10.0f);
+glm::vec3 CameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 CameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+*/
+
+Camera camera(glm::vec3(0.0f, 0.0f, 10.0f));
+
+float deltaTime = 0.0f;//两帧之差
+float lastFrame = 0.0f;//上一帧的时间
 
 void FrameSizeBufferCallback(GLFWwindow* window, int width, int height);
-
+void MouseCursorCallback(GLFWwindow* window, double pos_x, double  pos_y);//鼠标光标回调函数
+void ScrollCallback(GLFWwindow* window, double xoffset,double yoffset);//鼠标滚轮回调函数,x/yoffset:scroll offset along the x/y-axis.
 void InputProcess(GLFWwindow* window);
+
+bool firstMouse = true;
+double lastX = WIN_WIDTH / 2.0f;//鼠标上一帧位于屏幕的位置，初始化于屏幕中心
+double lastY = WIN_HEIGHT / 2.0f;
+
 
 int main()
 {
@@ -43,7 +58,11 @@ int main()
 
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, FrameSizeBufferCallback);
+	glfwSetCursorPosCallback(window, MouseCursorCallback);
+	glfwSetScrollCallback(window, ScrollCallback);
 
+	//捕获鼠标光标
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	//glad load all OpenGL function pointers
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -99,7 +118,7 @@ int main()
 
 	//位移向量
 	glm::vec3 cubePositions[] = {
-	  glm::vec3(0.0f,  0.0f,  -0.2f),
+	  glm::vec3(0.0f,  0.0f,  0.0f),
 	  glm::vec3(-2.0f,  5.0f, -0.0f),
 	  glm::vec3(-1.5f, 2.2f, -2.5f),
 	  glm::vec3(-3.8f, 2.0f, -2.3f),
@@ -199,8 +218,13 @@ int main()
 	shader.SetInt("outtexture2", 1);
 	shader.SetFloat("mixvalue", mixvalue);
 
+
 	while (!glfwWindowShouldClose(window))
 	{
+		double currTime = glfwGetTime();
+		deltaTime = currTime - lastFrame;
+		lastFrame = currTime;
+		
 		InputProcess(window);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);//每帧清空颜色缓存和深度缓存
 
@@ -212,36 +236,23 @@ int main()
 		shader.use();
 		
 		shader.SetFloat("mixvalue", mixvalue);
-		/*
-		//先缩放再旋转
-		glm::mat4 transform = glm::mat4(1.0f);
-		transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-		transform = glm::scale(transform, glm::vec3(0.5f, 0.5f, 0.5f));
-		transform = glm::translate(transform, glm::vec3(0.5f, -0.5f, 0.0f));
-		
-		//变换矩阵传递给着色器
-		unsigned int transformMatrix = glGetUniformLocation(shader.m_ProgramID, "transform");
-		glUniformMatrix4fv(transformMatrix, 1, GL_FALSE,&transform[0][0]);
-		*/
+
 		//设置mvp矩阵并传入着色器
 		glm::mat4 model = glm::mat4(1.0f);
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 projection = glm::mat4(1.0f); 
-
+		/*
 		if(IsLeftRight==true)//左右旋转
 			model = glm::rotate(model, moveleftright *glm::radians(-55.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-			
-		model = glm::rotate(model, moveupdown * glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-		projection = glm::perspective(glm::radians(80.0f), static_cast<float>(WIN_WIDTH / WIN_HEIGHT), 0.001f, 10000.0f);
+		*/
+		//model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		//传入摄像机位置，目标位置和向上方向的世界坐标系坐标，自动生成摄像机坐标系和view transformation矩阵
+		//view = glm::lookAt(CameraPosition,CameraFront+CameraPosition,CameraUp);
+		view = camera.GetViewMatrix();
+		shader.SetMatrix("view", view);
 
-		unsigned int ModelLocation = glGetUniformLocation(shader.m_ProgramID, "model");
-		glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, &model[0][0]);
-		unsigned int ViewLocation = glGetUniformLocation(shader.m_ProgramID, "view");
-		glUniformMatrix4fv(ViewLocation, 1, GL_FALSE, &view[0][0]);
-		unsigned int PerspectiveLocation = glGetUniformLocation(shader.m_ProgramID, "projection");
-		glUniformMatrix4fv(PerspectiveLocation, 1, GL_FALSE, &projection[0][0]);
-
+		projection = glm::perspective(glm::radians(camera.m_Fov), static_cast<float>(WIN_WIDTH / WIN_HEIGHT), 0.001f, 10000.0f);
+		shader.SetMatrix("projection", projection);
 		
 		glBindVertexArray(VAO);
 		for (int i = 0; i < sizeof(cubePositions)/sizeof(glm::vec3); i++)
@@ -250,8 +261,7 @@ int main()
 			model = glm::translate(model, cubePositions[i]);
 			float angle = 20.0f * i;
 			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-			ModelLocation = glGetUniformLocation(shader.m_ProgramID, "model");
-			glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, &model[0][0]);
+			shader.SetMatrix("model", model);
 			
 			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 		}
@@ -275,32 +285,60 @@ void FrameSizeBufferCallback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
+void MouseCursorCallback(GLFWwindow* window, double pos_x, double  pos_y)
+{
+	if (firstMouse)//鼠标第一次进入屏幕时就更新lastX/Y
+	{
+		lastX = pos_x;
+		lastY = pos_y;
+		firstMouse = false;
+	}
+
+	//计算x/y方向的位移并更新lastX/Y
+	double offsetX = pos_x - lastX;
+	double offsetY = lastY - pos_y;//y方向上需要反转，因为鼠标向上，希望场景也向上，此时摄像机就要向下
+	lastX = pos_x;
+	lastY = pos_y;
+
+	camera.ProcessMouseCursor(offsetX, offsetY, true);
+}
+
+void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	camera.ProcessMouseScroll(yoffset);
+}
+
 void InputProcess(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, 1);
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+
+
+	
+	float CameraSpeed = 5.0f*deltaTime;	
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 	{
-		IsLeftRight = false;
-		moveupdown += 0.001f;
+		deltaTime *= 3.0f;
+	}
+	//float CameraSpeed = 0.005f;
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+	{
+		camera.ProcessKeyboard(Camera_Movements::FORWARDS, deltaTime);
 	}
 		
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
-		IsLeftRight = false;
-		moveupdown -= 0.001f;
+		camera.ProcessKeyboard(Camera_Movements::BACKWARDS, deltaTime);
 	}
 
-	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		IsLeftRight = true;
-		moveleftright += 0.001f;
+		camera.ProcessKeyboard(Camera_Movements::LEFT, deltaTime);
 	}
 
-	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		IsLeftRight = true;
-		moveleftright -= 0.001f;
+		camera.ProcessKeyboard(Camera_Movements::RIGHT, deltaTime);
 	}
-		
 }
+
