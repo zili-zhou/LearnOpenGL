@@ -1,3 +1,4 @@
+
 #version 450 core
 
 struct material
@@ -28,6 +29,16 @@ uniform material Material;
 uniform vec3 CameraPos;
 
 out vec4 FragColor;
+
+float near = 0.01f;
+float far = 100.0f;
+
+float ZView(float depth)
+{
+	float z_view = 2*far*near/((far + near)+depth*(near-far));
+	return z_view;
+}
+
 void main()
 {
 	//º∆À„π‚’’
@@ -49,4 +60,5 @@ void main()
 
 
 	FragColor=vec4(ambientColor + diffuseColor + specularColor ,1.0f);
+	//FragColor = vec4(vec3(ZView(gl_FragCoord.z)), 1.0);
 }

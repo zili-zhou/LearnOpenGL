@@ -34,7 +34,7 @@ bool firstMouse = true;
 double lastX = WIN_WIDTH / 2.0f;//鼠标上一帧位于屏幕的位置，初始化于屏幕中心
 double lastY = WIN_HEIGHT / 2.0f;
 
-glm::vec3 LightPos(4.0f, 5.0f, 2.0f);
+glm::vec3 LightPos(10.0f, 8.0f,5.0f);
 
 int main()
 {
@@ -68,11 +68,15 @@ int main()
 		return 0;
 	}
 
+	
+	glEnable(GL_DEPTH_TEST);//允许深度测试
+	glDepthFunc(GL_LESS);
+	glEnable(GL_STENCIL_TEST);//允许模板测试
+	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
 
 	//顶点信息
-	glEnable(GL_DEPTH_TEST);//允许深度测试
-
 	float vertices[] = {
 		// positions          // colors           // texture coords  //normals
 		//前面后面
@@ -128,15 +132,15 @@ int main()
 	//位移向量
 	glm::vec3 cubePositions[] = {
 	  glm::vec3(0.0f,  0.0f,  0.0f),
-	  glm::vec3(-2.0f,  5.0f, -0.0f),
-	  glm::vec3(-1.5f, 2.2f, -2.5f),
-	  glm::vec3(-3.8f, 2.0f, -2.3f),
-	  glm::vec3(2.4f, -0.4f, -1.5f),
+	  glm::vec3(-2.0f,  0.5f, 10.0f),
+	  glm::vec3(3.5f, 0.0f, 4.5f),
+	  glm::vec3(-3.8f, 2.0f, 2.3f),
+	  glm::vec3(-2.4f, 0.4f, 1.5f),
 	  glm::vec3(-1.7f,  3.0f, -0.5f),
-	  glm::vec3(1.3f, -2.0f, -2.5f),
-	  glm::vec3(1.5f,  4.0f, -0.1f),
-	  glm::vec3(3.5f,  0.2f, -1.5f),
-	  glm::vec3(-1.3f,  1.0f, -1.5f)
+	  glm::vec3(-1.3f, 2.0f, 5.5f),
+	  glm::vec3(-1.5f,  4.0f, 6.1f),
+	  glm::vec3(-3.5f,  0.2f, 5.5f),
+	  glm::vec3(-1.3f,  1.0f, 7.5f)
 	};
 
 	//立方体光源八个顶点
@@ -176,6 +180,59 @@ int main()
 							12,11,15,
 							10,13,9,
 							13,14,9 };
+
+
+	float planevertices[] = {
+		// positions          // colors           // texture coords  //normals
+		//前面后面
+		15.0f,  -0.5f, 20.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,	0.0f,0.0f,1.0f,	      // top right
+		 15.0f, -0.55f, 20.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,	0.0f,0.0f,1.0f,		    // bottom right
+		-15.0f, -0.55f, 20.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,	0.0f,0.0f,1.0f,			// bottom left
+		-15.0f,  -0.5f, 20.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f,	0.0f,0.0f,1.0f,			// top left 
+
+		-15.0f,-0.5f,-5.0f,	  1.0f, 0.0f, 0.0f,   1.0f, 1.0f,	0.0f,0.0f,-1.0f,
+		-15.0f,-0.55f,-5.0f,    0.0f, 1.0f, 0.0f,   1.0f, 0.0f,	0.0f,0.0f,-1.0f,
+		15.0f,-0.55f,-5.0f,     0.0f, 0.0f, 1.0f,   0.0f, 0.0f,	0.0f,0.0f,-1.0f,
+		15.0f,-0.5f,-5.0f,      1.0f, 1.0f, 0.0f,   0.0f, 1.0f,	0.0f,0.0f,-1.0f,
+		//上面和下面
+		// positions          // colors           // texture coords
+		 15.0f,  -0.5f, 20.0f,   1.0f, 0.0f, 0.0f,   1.0f, 0.0f,	0.0f,1.0f,0.0f,	// top right
+		 15.0f, -0.55f, 20.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,	0.0f,-1.0f,0.0f,	// bottom right
+		-15.0f, -0.55f, 20.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,	0.0f,-1.0f,0.0f,	// bottom left
+		-15.0f,  -0.5f, 20.0f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f,	0.0f,1.0f,0.0f,	// top left 
+
+		-15.0f,-0.5f,-5.0f,	  1.0f, 0.0f, 0.0f,   0.0f, 1.0f,	0.0f,1.0f,0.0f,
+		-15.0f,-0.55f,-5.0f,    0.0f, 1.0f, 0.0f,   0.0f, 1.0f,	0.0f,-1.0f,0.0f,
+		15.0f,-0.55f,-5.0f,     0.0f, 0.0f, 1.0f,   1.0f, 1.0f,	0.0f,-1.0f,0.0f,
+		15.0f,-0.5f,-5.0f,      1.0f, 1.0f, 0.0f,   1.0f, 1.0f,	0.0f,1.0f,0.0f,
+
+		//左边和右面
+		15.0f,  -0.5f, 20.0f,   1.0f, 0.0f, 0.0f,   0.0f, 1.0f,	1.0f,0.0f,0.0f,	// top right
+		 15.0f, -0.55f, 20.0f,   0.0f, 1.0f, 0.0f,   0.0f, 0.0f,	1.0f,0.0f,0.0f,	// bottom right
+		-15.0f, -0.55f, 20.0f,   0.0f, 0.0f, 1.0f,   1.0f, 0.0f,	-1.0f,0.0f,0.0f,	// bottom left
+		-15.0f,  -0.5f, 20.0f,   1.0f, 1.0f, 0.0f,   1.0f, 1.0f,	-1.0f,0.0f,0.0f,	// top left 
+
+		-15.0f,-0.5f,-5.0f,	  1.0f, 0.0f, 0.0f,   0.0f, 1.0f,   -1.0f,0.0f,0.0f,
+		-15.0f,-0.55f,-5.0f,    0.0f, 1.0f, 0.0f,   0.0f, 0.0f,	-1.0f,0.0f,0.0f,
+		15.0f,-0.55f,-5.0f,     0.0f, 0.0f, 1.0f,   1.0f, 0.0f,	1.0f,0.0f,0.0f,
+		15.0f,-0.5f,-5.0f,      1.0f, 1.0f, 0.0f,   1.0f, 1.0f,	1.0f,0.0f,0.0f,
+
+	};
+
+	unsigned int planeindices[] = { 0,3,1,
+							1,3,2,
+							4,6,5,
+							4,7,6,
+
+							15,11,8,
+							12,11,15,
+							10,13,9,
+							13,14,9,
+
+							23,16,22,
+							22,16,17,
+							20,19,18,
+							20,21,18 };
 
 	//vertex buffer object, vertex array object, element buffer object
 	unsigned int CubeVBO, CubeVAO, CubeEBO;
@@ -223,13 +280,41 @@ int main()
 	glEnableVertexAttribArray(0);
 
 
+	// plane VAO
+	unsigned int planeVAO, planeVBO, planeEBO;
+	glGenVertexArrays(1, &planeVAO);
+	glGenBuffers(1, &planeVBO);
+	glGenBuffers(1, &planeEBO);
+
+	glBindVertexArray(planeVAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, planeVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(planevertices), &planevertices, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, planeEBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(planeindices), &planeindices, GL_STATIC_DRAW);
+
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, false, 11 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 3, GL_FLOAT, false, 11 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	glVertexAttribPointer(2, 2, GL_FLOAT, false, 11 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+
+	glVertexAttribPointer(3, 3, GL_FLOAT, false, 11 * sizeof(float), (void*)(8 * sizeof(float)));
+	glEnableVertexAttribArray(3);
+
+	
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-
 
 	//加载并生成纹理
 	unsigned int diffuseMap = LoadTexture("..//textures//container2.png");
 	unsigned int specularMap = LoadTexture("..//textures//container2_specular.png");
+	unsigned int floorTexture = LoadTexture("..//textures//toy_box_diffuse.png");
 	
 
 	//cueb shader
@@ -245,7 +330,13 @@ int main()
 	Shader LightShader("..//Shaders//lightvs.vert", "..//Shaders//lightfs.frag");
 	LightShader.use();
 
+	//plane shader
+	Shader PlaneShader("..//Shaders//vertexshader.vert", "..//Shaders//planefs.frag");
+	//PlaneShader.use();
+	//PlaneShader.SetInt("texture1", 2);
 
+	//outline shader
+	Shader OutlineShader("..//Shaders//vertexshader.vert", "..//Shaders//outlinefs.frag");
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -254,16 +345,7 @@ int main()
 		lastFrame = currTime;
 
 		InputProcess(window);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);//每帧清空颜色缓存和深度缓存
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, diffuseMap);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, specularMap);
-
-		//render the cube
-		CubeShader.use();
-		CubeShader.SetVec3("CameraPos", camera.GetPosition());
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);//每帧清空颜色缓存和深度缓存
 
 		//设置mvp矩阵并传入着色器
 		glm::mat4 model = glm::mat4(1.0f);
@@ -271,30 +353,12 @@ int main()
 		glm::mat4 projection = glm::mat4(1.0f);
 
 		view = camera.GetViewMatrix();
-		CubeShader.SetMat4("view", view);
+		projection = glm::perspective(glm::radians(camera.m_Fov), static_cast<float>(WIN_WIDTH / WIN_HEIGHT), 0.1f, 100.0f);
 
-		projection = glm::perspective(glm::radians(camera.m_Fov), static_cast<float>(WIN_WIDTH / WIN_HEIGHT), 0.001f, 10000.0f);
-		CubeShader.SetMat4("projection", projection);
-
-		glBindVertexArray(CubeVAO);
-		for (int i = 0; i < sizeof(cubePositions) / sizeof(glm::vec3); i++)
-		{
-
-			model = glm::translate(model, cubePositions[i]);
-			float angle = 20.0f * i;
-			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-			CubeShader.SetMat4("model", model);
-
-			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
-		}
-
-		//光特性
-		CubeShader.SetVec3("Light.ambient", 0.5f,0.5f,0.5f);
-		CubeShader.SetVec3("Light.diffuse", 0.5f, 0.5f, 0.5f);
-		CubeShader.SetVec3("Light.specular", 1.0f, 1.0f, 1.0f);
-
-		//材质特性
-		CubeShader.SetFloat("Material.shininess", 64.0f);
+		OutlineShader.use();
+		OutlineShader.SetMat4("view", view);
+		OutlineShader.SetMat4("projection", projection);
+		
 
 		//render the light
 		LightShader.use();
@@ -306,9 +370,84 @@ int main()
 		LightShader.SetMat4("model", model);
 		glBindVertexArray(LightVAO);
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+		
+		// draw floor as normal, but don't write the floor to the stencil buffer, we only care about the containers. We set its mask to 0x00 to not write to the stencil buffer.
+		glStencilMask(0x00);
+		// floor
+		PlaneShader.use();	
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, floorTexture);
+		PlaneShader.SetMat4("model", glm::mat4(1.0f));
+		PlaneShader.SetMat4("view", view);
+		PlaneShader.SetMat4("projection", projection);
+		PlaneShader.SetInt("texture1", 2);
+		glBindVertexArray(planeVAO);
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT,0);
+	
+		// 1st. render pass, draw objects as normal, writing to the stencil buffer
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glStencilMask(0xFF);
+		//render the cube
+		CubeShader.use();
+		CubeShader.SetVec3("CameraPos", camera.GetPosition());
+		CubeShader.SetMat4("view", view);
+		CubeShader.SetMat4("projection", projection);
 
+		//光特性
+		CubeShader.SetVec3("Light.ambient", 0.5f,0.5f,0.5f);
+		CubeShader.SetVec3("Light.diffuse", 0.5f, 0.5f, 0.5f);
+		CubeShader.SetVec3("Light.specular", 1.0f, 1.0f, 1.0f);
 
+		//材质特性
+		CubeShader.SetFloat("Material.shininess", 64.0f);		
 
+		glBindVertexArray(CubeVAO);
+		for (int i = 0; i < sizeof(cubePositions) / sizeof(glm::vec3); i++)
+		{
+				
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, diffuseMap);
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, specularMap);
+			model = glm::translate(glm::mat4(1.0f), cubePositions[i]);
+			//float angle = 10.0f * i;
+			//model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+			CubeShader.SetMat4("model", model);
+
+			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+		}
+		
+		
+		// 2nd. render pass: now draw slightly scaled versions of the objects, this time disabling stencil writing.
+	// Because the stencil buffer is now filled with several 1s. The parts of the buffer that are 1 are not drawn, thus only drawing 
+	// the objects' size differences, making it look like borders.
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+		glStencilMask(0x00);
+		//glDisable(GL_DEPTH_TEST);
+		OutlineShader.use();
+		float scale = 1.1f;
+		
+		glBindVertexArray(CubeVAO);
+		for (int i = 0; i < sizeof(cubePositions) / sizeof(glm::vec3); i++)
+		{
+			if (i % 2 == 0)
+				continue;
+			glBindTexture(GL_TEXTURE_2D, diffuseMap);
+			//glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, specularMap);
+			model = glm::translate(glm::mat4(1.0f), cubePositions[i]);
+			model = glm::scale(model, glm::vec3(scale, scale, scale));
+			OutlineShader.SetMat4("model", model);
+
+			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+			glClear(GL_STENCIL_BUFFER_BIT);
+		}
+		glBindVertexArray(0);
+		glStencilMask(0xFF);
+		glStencilFunc(GL_ALWAYS, 0, 0xFF);
+		glEnable(GL_DEPTH_TEST);
+		
+		
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -320,6 +459,10 @@ int main()
 	glDeleteBuffers(1, &LightVBO);
 	glDeleteBuffers(1, &LightEBO);
 	glDeleteVertexArrays(1, &LightVAO);
+
+	glDeleteBuffers(1, &planeVBO);
+	glDeleteBuffers(1, &planeEBO);
+	glDeleteVertexArrays(1, &planeVAO);
 
 	glfwTerminate();
 	return 0;
