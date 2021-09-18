@@ -1,0 +1,9 @@
+﻿  ALphaBlending.cpp
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\include\shader_h\shader.h(70,33): warning C4101: “e”: 未引用的局部变量
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\include\camera_h\camera.h(93,21): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\include\camera_h\camera.h(110,19): warning C4244: “+=”: 从“double”转换到“float”，可能丢失数据
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\include\camera_h\camera.h(111,21): warning C4244: “+=”: 从“double”转换到“float”，可能丢失数据
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\include\camera_h\camera.h(121,19): warning C4244: “-=”: 从“double”转换到“float”，可能丢失数据
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\Alpha Blending\Alpha Blending\ALphaBlending.cpp(385,24): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\Alpha Blending\Alpha Blending\ALphaBlending.cpp(386,15): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  Alpha Blending.vcxproj -> D:\Books\Computer Graphics\OpenGL\LearnOpenGL\Alpha Blending\x64\Debug\Alpha Blending.exe
