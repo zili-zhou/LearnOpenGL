@@ -378,7 +378,7 @@ int main()
 	Shader TransparentShader("..//Shaders//transparentvs.vert", "..//Shaders//transparentfs.frag");
 	TransparentShader.use();
 	TransparentShader.SetInt("texture2",3);
-
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	while (!glfwWindowShouldClose(window))
 	{
 		double currTime = glfwGetTime();

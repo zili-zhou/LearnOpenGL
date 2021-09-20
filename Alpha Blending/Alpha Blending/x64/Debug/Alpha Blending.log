@@ -6,4 +6,5 @@ D:\Books\Computer Graphics\OpenGL\LearnOpenGL\include\camera_h\camera.h(111,21):
 D:\Books\Computer Graphics\OpenGL\LearnOpenGL\include\camera_h\camera.h(121,19): warning C4244: “-=”: 从“double”转换到“float”，可能丢失数据
 D:\Books\Computer Graphics\OpenGL\LearnOpenGL\Alpha Blending\Alpha Blending\ALphaBlending.cpp(385,24): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
 D:\Books\Computer Graphics\OpenGL\LearnOpenGL\Alpha Blending\Alpha Blending\ALphaBlending.cpp(386,15): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+LINK : warning LNK4098: 默认库“MSVCRT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
   Alpha Blending.vcxproj -> D:\Books\Computer Graphics\OpenGL\LearnOpenGL\Alpha Blending\x64\Debug\Alpha Blending.exe
