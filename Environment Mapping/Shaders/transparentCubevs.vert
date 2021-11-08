@@ -1,8 +1,10 @@
 #version 450 core
 layout(location=0) in vec3 Pos;
+/*
 layout(location=1) in vec3 Color;
 layout(location=2) in vec2 TextureCoords;
-layout(location=3) in vec3 NormalL;
+*/
+layout(location=1) in vec3 NormalL;
 
 out vec3 Normal;
 out vec3 Position;

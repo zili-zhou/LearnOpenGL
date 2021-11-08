@@ -13,5 +13,5 @@ void main()
 	vec3 View = normalize(Position - CameraPos);
 	vec3 InputLight_reflect = reflect(View , normalize(Normal));//∑¥…‰reflect(View , normalize(Normal));
 	vec3 InputLight_refract = refract(View, normalize(Normal), ratio);//’€…‰
-	FragColor = vec4(texture(skybox, InputLight_refract).rgb, 1.0f);
+	FragColor = vec4(texture(skybox, InputLight_reflect).rgb, 1.0f);
 }

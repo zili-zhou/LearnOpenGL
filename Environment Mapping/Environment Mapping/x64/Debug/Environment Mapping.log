@@ -4,7 +4,7 @@ D:\Books\Computer Graphics\OpenGL\LearnOpenGL\include\camera_h\camera.h(93,21): 
 D:\Books\Computer Graphics\OpenGL\LearnOpenGL\include\camera_h\camera.h(110,19): warning C4244: “+=”: 从“double”转换到“float”，可能丢失数据
 D:\Books\Computer Graphics\OpenGL\LearnOpenGL\include\camera_h\camera.h(111,21): warning C4244: “+=”: 从“double”转换到“float”，可能丢失数据
 D:\Books\Computer Graphics\OpenGL\LearnOpenGL\include\camera_h\camera.h(121,19): warning C4244: “-=”: 从“double”转换到“float”，可能丢失数据
-D:\Books\Computer Graphics\OpenGL\LearnOpenGL\Environment Mapping\Environment Mapping\environment_mapping.cpp(475,24): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-D:\Books\Computer Graphics\OpenGL\LearnOpenGL\Environment Mapping\Environment Mapping\environment_mapping.cpp(476,15): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-LINK : warning LNK4098: 默认库“MSVCRT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\include\mesh_h\mesh.h(84,1): warning C4267: “参数”: 从“size_t”转换到“GLsizei”，可能丢失数据
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\Environment Mapping\Environment Mapping\environment_mapping.cpp(480,24): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\Environment Mapping\Environment Mapping\environment_mapping.cpp(481,15): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
   Environment Mapping.vcxproj -> D:\Books\Computer Graphics\OpenGL\LearnOpenGL\Environment Mapping\x64\Debug\Environment Mapping.exe

@@ -2,12 +2,15 @@
 #include <GLFW/glfw3.h>
 #include <shader_h/shader.h>
 #include <camera_h/camera.h>
-#define STB_IMAGE_IMPLEMENTATION
+
 #include <stb_image.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#include <filesystem.h>
+#include <model_h/model.h>
 
 #include <iostream>
 #include <cmath>
@@ -15,7 +18,7 @@
 #include <map>
 #include <algorithm>
 
-const unsigned int WIN_WIDTH = 1440;
+const unsigned int WIN_WIDTH = 1080;
 const unsigned int WIN_HEIGHT = 1080;
 
 
@@ -417,6 +420,8 @@ int main()
 	glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
+	// load models
+	Model ourModel(FileSystem::getPath("resouces/objects/nanosuit/nanosuit.obj"));
 
 	//加载并生成纹理
 	unsigned int diffuseMap = LoadTexture("..//textures//container2.png");
@@ -482,10 +487,10 @@ int main()
 		glm::mat4 model = glm::mat4(1.0f);
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 projection = glm::mat4(1.0f);
-
+		
 		view = camera.GetViewMatrix();
 		projection = glm::perspective(glm::radians(camera.m_Fov), static_cast<float>(WIN_WIDTH / WIN_HEIGHT), 0.1f, 1000.0f);
-
+		/*
 		TransparentShader.use();
 		TransparentShader.SetMat4("view", view);
 		TransparentShader.SetMat4("projection", projection);
@@ -573,7 +578,7 @@ int main()
 			TransparentShader.SetMat4("model", model);
 			glDrawArrays(GL_TRIANGLES, 0, 6);
 		}
-
+		*/
 		// draw skybox as last
 		glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
 		SkyboxShader.use();
@@ -591,8 +596,13 @@ int main()
 		GlassCubeShader.use();
 		GlassCubeShader.SetVec3("CameraPos", camera.GetPosition());
 		view = camera.GetViewMatrix();
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		GlassCubeShader.SetMat4("model", model);
 		GlassCubeShader.SetMat4("view", view);
 		GlassCubeShader.SetMat4("projection", projection);
+		ourModel.Draw(GlassCubeShader);
+		/*
 		glBindVertexArray(CubeVAO);
 		for (int i = 0; i < sizeof(glasscubePositions) / sizeof(glm::vec3); i++)
 		{
@@ -606,7 +616,7 @@ int main()
 
 			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 		}
-
+		*/
 		glBindVertexArray(0);	
 		glfwSwapBuffers(window);
 		glfwPollEvents();

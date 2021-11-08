@@ -1,0 +1,15 @@
+﻿  modelloading.cpp
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\include\shader_h\shader.h(70,33): warning C4101: “e”: 未引用的局部变量
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\include\camera_h\camera.h(93,21): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\include\camera_h\camera.h(110,19): warning C4244: “+=”: 从“double”转换到“float”，可能丢失数据
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\include\camera_h\camera.h(111,21): warning C4244: “+=”: 从“double”转换到“float”，可能丢失数据
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\include\camera_h\camera.h(121,19): warning C4244: “-=”: 从“double”转换到“float”，可能丢失数据
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\include\mesh_h\mesh.h(84,1): warning C4267: “参数”: 从“size_t”转换到“GLsizei”，可能丢失数据
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\ModelLoading\modelloading\modelloading\modelloading.cpp(98,28): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\ModelLoading\modelloading\modelloading\modelloading.cpp(172,17): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\ModelLoading\modelloading\modelloading\modelloading.cpp(173,17): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\ModelLoading\modelloading\modelloading\modelloading.cpp(177,19): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\ModelLoading\modelloading\modelloading\modelloading.cpp(178,19): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\ModelLoading\modelloading\modelloading\modelloading.cpp(180,13): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+D:\Books\Computer Graphics\OpenGL\LearnOpenGL\ModelLoading\modelloading\modelloading\modelloading.cpp(181,13): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  modelloading.vcxproj -> D:\Books\Computer Graphics\OpenGL\LearnOpenGL\ModelLoading\modelloading\x64\Debug\modelloading.exe
